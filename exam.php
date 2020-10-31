@@ -3,8 +3,6 @@ $title = "Tests List";
 include('header.php');
 $user_id = $_SESSION['userdata']['user_id'];
 $exam_no = $_GET['exam_no'];
-$_SESSION['exam_no'] = $exam_no;
-
 ?>      
 
         <div class="container content">

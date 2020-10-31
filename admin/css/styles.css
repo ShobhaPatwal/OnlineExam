@@ -1268,6 +1268,9 @@ p.back-link {
   margin: 0 0 40px 0;
   background: #fff
 }
+.content-box h2 {
+  margin-top: 0;
+}
 .content-box-header {
   background: #e5e5e5
 }
@@ -1477,4 +1480,15 @@ ul.content-box-tabs li a.current {
 
 .slider.round:before {
   border-radius: 50%;
+}
+.question {
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin: 30px 0;
+  font-size:15px;
+  line-height: 27px;
+}
+.question span {
+  font-weight:600;
+  margin-right:10px;
 }

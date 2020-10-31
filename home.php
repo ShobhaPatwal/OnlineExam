@@ -19,6 +19,7 @@ include('header.php')
             </div>
             <br>
                     <p>Each test contains 10 questions, you get 1 point for each correct answer, at the end of each test you get your total score. When you finish the quiz, you can go through each question with the correct answer.</p>
+                    <br/>
 
                     <table class="table table-bordered">
                                 <thead>

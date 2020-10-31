@@ -13,64 +13,99 @@ include('header.php');
 				<li class="active">Dashboard</li>
 			</ol>
 		</div><!--/.row-->
-		
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Add Questions</h1>
-			</div>
-		</div><!--/.row-->
+		<br/><br/>
 		<div class="content-box"><!-- Start Content Box -->
 				<div class="content-box-content">
-					<?php if(isset($_SESSION['error'])) : ?>
-                    <span id="message">
-                        <div class="alert alert-danger">
-                            <?php echo $_SESSION['error']; unset($_SESSION['error']);  ?>
-                        </div> 
-					</span>
-					<?php endif; ?> 
-							
-					<?php if(isset($_SESSION['success'])) : ?>
-                        <span id="message">
-                            <div class="alert alert-success">
-                                <?php echo $_SESSION['success']; 
-							    unset($_SESSION['success']); ?>
-                            </div> 
-						</span>
-					<?php endif; ?> 
-					<form action="add_quiz.php" method="post"> 
-						<!-- This is the target div. id must match the href of this div's tab -->
-						<div class="form-group">
-						 	<label for="question">Question</label>
-      						<input type="text" class="form-control" name="question" id="question" placeholder="Enter question" required/>
-    					</div>
-    					<div class="form-group">
-    						<label for="option_1">Option 1</label>
-    						<input type="text" class="form-control" name="option_1" id="option_1" placeholder="Enter option 1" required/>
-  						</div>
-     					<div class="form-group">
-    						<label for="option_2">Option 2</label>
-    						<input type="text" class="form-control" name="option_2" id="option_2" placeholder="Enter option 2" required/>
-  						</div>
-     					<div class="form-group">
-    						<label for="option_3">Option 3</label>
-    						<input type="text" class="form-control" name="option_3" id="option_3" placeholder="Enter option 3" required/>
-  						</div>
-     					<div class="form-group">
-    						<label for="option_4">Option 4</label>
-    						<input type="text" class="form-control" name="option_4" id="option_4" placeholder="Enter option 4" required/>
-  						</div>
-   						<div class="form-group">
-    						<label for="answer">Answer</label>
-    						<input type="text" class="form-control" name="answer" id="answer" placeholder="Enter answer" required/> 
-  						</div>
-  						<div class="form-group">
-    						<label for="exam_no">Exam Number</label>
-    						<input type="number" class="form-control" name="exam_no" id="exam_no" min="1" placeholder="Enter exam no" required/>
-  						</div>
- 						<button type="submit" class="btn btn-default" name="quiz">Submit</button>
-					</form>
+					<div class="table-responsive">
+        				<div class="table-wrapper">
+            				<div class="table-title">
+                				<h2>Online Tests</h2>
+            				</div>
+            				<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Test Number</th>
+                                        <th>Total Questions</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $sql = "SELECT DISTINCT exam_no FROM questions";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while ($row = $result->fetch_assoc()) {
+                                ?>
+                                <tr>
+                                	<td><?php echo $row['exam_no'];?></td>
+                                    <td><?php 
+                                    $sql1 = "SELECT * FROM questions WHERE exam_no='".$row['exam_no']."'";
+                                    $result1 = $conn->query($sql1);
+                                    $count = $result1->num_rows;
+                                    echo $count;
+                                    ?></td>
+                                    <td>
+				                        <a href="viewTest.php?test_id=<?php echo $row["exam_no"]; ?>" >View Test</a>
+				                    </td>
+                                </tr>
+                                <?php
+                                    }
+                                } 
+                                ?>
+                                 
+                                </tbody>
+                            </table>
+				        </div>
+    				</div>
 				</div> <!-- End .content-box-content -->
 			</div> <!-- End .content-box -->
+		<div class="content-box"><!-- Start Content Box -->
+				<div class="content-box-content">
+					<div class="table-responsive">
+        				<div class="table-wrapper">
+            				<div class="table-title">
+                				<h2>Users</h2>
+            				</div>
+            				<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Gender</th>
+                                        <th>Mobile No.</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $sql = "SELECT * FROM users";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while ($row = $result->fetch_assoc()) {
+                                ?>
+                                <tr>
+                                	<td><?php echo $row['user_id'];?></td>
+                                    <td><a href="../images/<?php echo $row['image'];?>"><img width="60px" height="60px" src="../images/<?php echo $row['image'];?>" alt="image" /></a> <?php echo $row['name'];?></td>
+                                    <td><?php echo $row['email'];?></td>
+                                    <td><?php echo $row['gender'];?></td>
+                                    <td><?php echo $row['mobile_no'];?></td>
+                                    <td><?php echo $row['address'];?></td>
+                                </tr>
+                                <?php
+                                    }
+                                } 
+                                ?>
+                                 
+                                </tbody>
+                            </table>
+				        </div>
+    				</div>
+				</div> <!-- End .content-box-content -->
+			</div> <!-- End .content-box -->
+
 	</div>	<!--/.main-->
 	
 	<?php include('footer.php'); ?>

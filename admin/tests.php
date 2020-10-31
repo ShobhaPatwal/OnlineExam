@@ -55,7 +55,7 @@ include('header.php');
                                     <tr>
                                         <th>Test Number</th>
                                         <th>Total Questions</th>
-                                        <th>Actions</th>
+                                        <th style="min-width:140px;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,8 +74,9 @@ include('header.php');
                                     $count = $result1->num_rows;
                                     echo $count;
                                     ?></td>
-									<td>
-				                        <a class="edit" href="add_test.php?test_id=<?php echo $row["exam_no"]; ?>" data-toggle="tooltip" data-original-title="Add"><i class="fa fa-plus"></i></a>
+									<td style="min-width:140px;">
+				                        <a class="edit" href="viewTest.php?test_id=<?php echo $row["exam_no"]; ?>" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a>
+				                        <a class="addd" href="add_test.php?test_id=<?php echo $row["exam_no"]; ?>" data-toggle="tooltip" data-original-title="Add"><i class="fa fa-plus"></i></a>
 				                        <a class="delete" href="deleteTest.php?action=remove&test_id=<?php echo $row["exam_no"]; ?>" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>
 				                    </td>
                                 </tr>

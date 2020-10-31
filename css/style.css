@@ -41,12 +41,15 @@ a:hover {
   margin-bottom: 1px;
   cursor: pointer;
 }
+.content table td {
+  padding:15px;
+}
 .content table td a {
     font-weight: 700;
     border-radius: 50px;
     background: #30a5ff;
     color: white;
-    padding: 6px 12px;
+    padding: 8px 12px;
     text-decoration:none;
 }
 .exam p, .exam input[type=submit] {
@@ -82,4 +85,15 @@ ul.header-nav {
 }
 .header-nav li span{
     padding: 14px 16px;display: inline-block;
+}
+.score table tr.result {
+  background: #38aae0;
+  color: white;
+  font-weight: 600;
+}
+.score .btn{
+  font-weight: 600;
+  font-size: 16px;
+  padding: 8px 12px;
+  margin: 25px 5px 20px;
 }

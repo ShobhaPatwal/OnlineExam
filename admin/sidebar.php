@@ -1,6 +1,8 @@
 <?php
-$filename = basename($_SERVER['REQUEST_URI']);
-$test_menu = array('tests.php','add_test.php');
+$url = $_SERVER['REQUEST_URI'];
+$path = parse_url($url, PHP_URL_PATH);
+$filename = basename($path);
+$test_menu = array('tests.php', 'add_test.php', 'viewTest.php');
 $user_menu = array('test_result.php', 'users.php');
 ?>
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
@@ -51,12 +53,6 @@ $user_menu = array('test_result.php', 'users.php');
 				<li <?php if($filename == 'users.php'): ?>class="current"<?php endif; ?> >
 					<a href="users.php">
 						<span class="fa fa-arrow-right">&nbsp;</span> Show Users
-					</a>
-				</li>
-				
-				<li>
-					<a <?php if($filename == 'test_result.php'): ?>class="current"<?php endif; ?> href="test_reslult.php">
-						<span class="fa fa-arrow-right">&nbsp;</span> Sub Item 2
 					</a>
 				</li>
 			</ul>
