@@ -16,7 +16,7 @@ include('header.php');
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Users Details</h1>
+				<h1 class="page-header">Users Detail</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="content-box"><!-- Start Content Box -->
@@ -68,7 +68,7 @@ include('header.php');
                                     <td><?php echo $row['mobile_no'];?></td>
                                     <td><?php echo $row['address'];?></td>
 									<td>
-				                        <a class="delete" href="deleteUser.php?action=remove&user_id=<?php echo $row["user_id"]; ?>" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+				                        <a class="delete" href="deleteUser.php?action=remove&user_id=<?php echo $row["user_id"]; ?>" title="Delete User" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>
 				                    </td>
                                 </tr>
                                 <?php

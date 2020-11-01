@@ -2,7 +2,7 @@
 $url = $_SERVER['REQUEST_URI'];
 $path = parse_url($url, PHP_URL_PATH);
 $filename = basename($path);
-$test_menu = array('tests.php', 'add_test.php', 'viewTest.php');
+$test_menu = array('tests.php', 'addTest.php', 'viewTest.php', 'addQuestion.php');
 $user_menu = array('test_result.php', 'users.php');
 ?>
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
@@ -39,8 +39,8 @@ $user_menu = array('test_result.php', 'users.php');
 						<span class="fa fa-arrow-right">&nbsp;</span> Manage Tests
 					</a>
 				</li>
-				<li <?php if($filename == 'add_test.php'): ?>class="current"<?php endif; ?> >
-					<a href="add_test.php">
+				<li <?php if($filename == 'addTest.php'): ?>class="current"<?php endif; ?> >
+					<a href="addTest.php">
 						<span class="fa fa-arrow-right">&nbsp;</span> Add Test
 					</a>
 				</li>

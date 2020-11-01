@@ -1492,3 +1492,8 @@ ul.content-box-tabs li a.current {
   font-weight:600;
   margin-right:10px;
 }
+.question div a {
+  text-align: right;
+  display: block;
+}
+

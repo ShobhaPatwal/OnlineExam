@@ -1,6 +1,10 @@
 <?php
 $title = "Tests List";
-include('header.php')
+include('header.php');
+//check session variable is set
+if (!isset($_SESSION['userdata']['user_email'])) {
+    header('location: index.php');
+}
 ?>      
 
         <div class="container content">

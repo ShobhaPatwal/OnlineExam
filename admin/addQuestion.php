@@ -1,5 +1,5 @@
 <?php 
-$title = 'Dashboard';
+$title = 'Add Question';
 include('header.php'); 
 ?>  
 	<?php include('sidebar.php'); ?>
@@ -16,7 +16,7 @@ include('header.php');
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Add Questions</h1>
+				<h1 class="page-header">Add Question</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="content-box"><!-- Start Content Box -->

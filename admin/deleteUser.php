@@ -7,7 +7,7 @@ if(isset($_GET['action']) && $_GET['action'] == "remove") {
     $user_id = $_REQUEST['user_id'];
     $delete = "DELETE FROM users WHERE user_id='".$user_id."'";
     if ($conn->query($delete) === TRUE) {
-        $_SESSION['success'] = "User is deleted";
+        $_SESSION['success'] = "User ".$user_id." is deleted";
     } else {
         $_SESSION['error'] = $conn->error;
     }

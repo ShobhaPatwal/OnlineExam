@@ -3,6 +3,10 @@ $title = "Score";
 include('header.php');
 include_once('config.php');
 include_once('functions.php');
+//check session variable is set
+if (!isset($_SESSION['userdata']['user_email'])) {
+    header('location: index.php');
+}
 //calls function for checking answers
 $answer = answer($_POST);
 ?>
@@ -13,7 +17,7 @@ $answer = answer($_POST);
                 	$total_question = $answer['right']+$answer['wrong']+$answer['no_answer'];
                 	$attempt_question = $answer['right']+$answer['wrong'];
                 	?>
-                	<h1>Test <?php echo $_SESSION['exam_no']; ?> Result</h1><br/>
+                	<h1>Test <?php echo $answer['exam_no']; ?> Result</h1><br/>
                 	<table class="table table-bordered">
 					    <thead>
 					    	<tr>
@@ -57,7 +61,7 @@ $answer = answer($_POST);
 					}
                 	?>
                 	<div class="center">
-                		<a href="result.php" class="btn btn-success btn-lg">Check Your Answers</a>
+                		<!--<a href="result.php" class="btn btn-success btn-lg">Check Your Answers</a>-->
                 		<a href="home.php" class="btn btn-primary btn-lg">Back To Tests</a>	
                 	</div>
                 </div>

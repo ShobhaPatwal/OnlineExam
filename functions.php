@@ -103,7 +103,7 @@ function addQuestion($question, $option1, $option2, $option3, $option4, $answer,
     if (empty($_SESSION['error'])) {
         echo $sql = "INSERT INTO questions (question, option1, option2, option3, option4, answer, exam_no) VALUES('".$question."', '".$option1."', '".$option2."', '".$option3."', '".$option4."', '".$answer."', '".$exam_no."')";
         if ($conn->query($sql) === true) {
-            $_SESSION['success'] = "Question has been added to quiz.";
+            $_SESSION['success'] = "Question has been added to test ".$exam_no;
             return $_SESSION['success'];
         } else {
             $_SESSION['error'][] = $conn->error;
@@ -140,6 +140,33 @@ function answer($data) {
     $array['wrong'] = $wrong;
     $array['no_answer'] = $no_answer;
     return $array;
+}
+
+//show questions of test in admin panel
+function showQuestions() {
+    global $conn, $exam_no;
+    $sql = "SELECT * FROM questions WHERE exam_no='".$exam_no."'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {    
+        $count = $result->num_rows;
+        $i = 1;
+        echo '<div class="table-title">
+                    <h2>Test '.$exam_no.' ('.$count.' questions)</h2>
+                </div>';
+        $html = '';
+        while ($row = $result->fetch_assoc()) { 
+            echo $html = '<div class="question">
+                <div><span>'.$i.')</span>'.$row['question'].'</div> 
+                <div><span>Option 1:</span>'.$row['option1'].'</div>
+                <div><span>Option 2:</span>'.$row['option2'].'</div>
+                <div><span>Option 3:</span>'.$row['option3'].'</div>
+                <div><span>Option 4:</span>'.$row['option4'].'</div>
+                <div><span>Answer:</span>Option '.($row['answer']+1).'</div> 
+                <div><a class="delete" href="deleteTest.php?action=delete&ques_id='.$row["ques_id"].'&number='.$i.'&exam_no='.$exam_no.'" data-toggle="tooltip" title="Delete Question">Delete <i class="fa fa-trash"></i></a></div> 
+                </div> ';
+            $i++; 
+        }
+    } 
 }
 
 ?>

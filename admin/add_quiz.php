@@ -18,7 +18,7 @@ if (isset($_POST['quiz'])) {
     $ans = array_search($answer,$option_array);
     // add questions to quiz
     $addQuestion = addQuestion($question, $option1, $option2, $option3, $option4, $ans, $exam_no);
-    header('location: index.php');
+    header('location: tests.php');
 
 } 
 
