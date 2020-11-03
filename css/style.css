@@ -97,3 +97,25 @@ ul.header-nav {
   padding: 8px 12px;
   margin: 25px 5px 20px;
 }
+/* Mark input boxes that gets an error on validation: */
+#examForm input.invalid {
+  background-color: #ffdddd;
+}
+/* Hide all steps by default: */
+#examForm .tab {
+  display: none;
+}
+#examForm button {
+  background-color: #38aae0;
+  color: #ffffff;
+  border: none;
+  padding: 5px 15px;
+  margin-top:30px;
+}
+#examForm button:hover {
+  opacity: 0.8;
+}
+#examForm #prevBtn {
+  background-color: #bbbbbb;
+  margin-right: 10px;
+}

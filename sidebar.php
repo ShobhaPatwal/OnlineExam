@@ -1,5 +1,7 @@
 <ul class="header-nav">
   <li><a href="logout.php">Logout</a></li>
+  <li><a href="home.php">Change Password</a></li>
+  <li><a href="home.php">Profile</a></li>
   <li><a href="home.php">Home</a></li>
   <li>
     <span class="text-uppercase text-warning">

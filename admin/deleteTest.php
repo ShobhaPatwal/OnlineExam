@@ -21,7 +21,7 @@ if(isset($_GET['action']) && $_GET['action'] == "delete") {
     $exam_no = $_REQUEST['exam_no'];
     $delete = "DELETE FROM questions WHERE ques_id='".$ques_id."'";
     if ($conn->query($delete) === TRUE) {
-        $_SESSION['success'] = "Question ".$number." is deleted from Exam ".$exam_no;
+        $_SESSION['success'] = "Question ".$number." is deleted from Test ".$exam_no;
     } else {
         $_SESSION['error'] = $conn->error;
     }

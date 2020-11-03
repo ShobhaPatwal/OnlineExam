@@ -85,7 +85,7 @@ function registerUser($name, $email, $password, $gender, $mobile_no, $address, $
     global $conn;
     //$secure_password = password_hash($password, PASSWORD_BCRYPT);
     if (sizeof($_SESSION['error']) == 0) {
-        echo $sql = "INSERT INTO users (name, email, password, gender, mobile_no, address, image) VALUES('".$name."', '".$email."', '".$password."', '".$gender."', '".$mobile_no."', '".$address."', '".$image."')";
+        $sql = "INSERT INTO users (name, email, password, gender, mobile_no, address, image) VALUES('".$name."', '".$email."', '".$password."', '".$gender."', '".$mobile_no."', '".$address."', '".$image."')";
         if ($conn->query($sql) === true) {
             $_SESSION['success'] = "Your account has been created! ";
             return $_SESSION['success'];
@@ -101,7 +101,7 @@ function registerUser($name, $email, $password, $gender, $mobile_no, $address, $
 function addQuestion($question, $option1, $option2, $option3, $option4, $answer, $exam_no) {
     global $conn;
     if (empty($_SESSION['error'])) {
-        echo $sql = "INSERT INTO questions (question, option1, option2, option3, option4, answer, exam_no) VALUES('".$question."', '".$option1."', '".$option2."', '".$option3."', '".$option4."', '".$answer."', '".$exam_no."')";
+        $sql = "INSERT INTO questions (question, option1, option2, option3, option4, answer, exam_no) VALUES('".$question."', '".$option1."', '".$option2."', '".$option3."', '".$option4."', '".$answer."', '".$exam_no."')";
         if ($conn->query($sql) === true) {
             $_SESSION['success'] = "Question has been added to test ".$exam_no;
             return $_SESSION['success'];
@@ -113,11 +113,12 @@ function addQuestion($question, $option1, $option2, $option3, $option4, $answer,
     return false;
 } 
 
-//function for checking answers
+//check exam's result and shows it to user in their dashboard
 function answer($data) {
     global $conn;
     $ans = implode(" ", $data);
     $exam_no = $_POST['exam_no'];
+    $user_id = $_POST['user_id'];
     $right = 0;
     $wrong = 0;
     $no_answer = 0;
@@ -139,20 +140,22 @@ function answer($data) {
     $array['right'] = $right;
     $array['wrong'] = $wrong;
     $array['no_answer'] = $no_answer;
+    $marks = implode(',', $array);
+
+    $sql1 = "INSERT INTO user_exam_result (user_id, exam_id, marks, date) VALUES('".$user_id."', '".$exam_no."', '".$marks."', now())";
+    $conn->query($sql1);
     return $array;
 }
 
-//show questions of test in admin panel
+//shows test's questions in admin panel
 function showQuestions() {
     global $conn, $exam_no;
     $sql = "SELECT * FROM questions WHERE exam_no='".$exam_no."'";
     $result = $conn->query($sql);
-    if ($result->num_rows > 0) {    
-        $count = $result->num_rows;
+    $count = $result->num_rows;
+    echo '<div class="table-title"><h2>Test '.$exam_no.' ('.$count.' questions)</h2></div>';
+    if ($result->num_rows > 0) { 
         $i = 1;
-        echo '<div class="table-title">
-                    <h2>Test '.$exam_no.' ('.$count.' questions)</h2>
-                </div>';
         $html = '';
         while ($row = $result->fetch_assoc()) { 
             echo $html = '<div class="question">
@@ -167,6 +170,72 @@ function showQuestions() {
             $i++; 
         }
     } 
+    return false;
+}
+
+//shows test's question in user's dashboard and submit test
+function showExamQuestions() {
+    global $conn, $exam_no, $user_id;
+    $sql = "SELECT * FROM questions WHERE exam_no='".$exam_no."'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {    
+        $count = $result->num_rows;
+        $i = 1;
+        echo '<h4>Total '.$count.' questions</h4>';
+        $html = '<form action="score.php" method="post" class="exam">';
+        while ($row = $result->fetch_assoc()) { 
+            $html .= '<p>'.$i.') '.$row['question'].'</p>';
+            if(isset($row['option1'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="0">'.$row['option1'].'</label></div>';                    
+            }
+            if(isset($row['option2'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="1">'.$row['option2'].'</label></div>';
+            }
+            if(isset($row['option3'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="2">'.$row['option3'].'</label></div>';
+            }
+            if(isset($row['option4'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="3">'.$row['option4'].'</label></div>';
+            }
+            $html .= '<div class="radio" style="display:none" ><label><input type="radio" checked="checked" name="'.$row['ques_id'].'" value="no_attempt"></label></div>';
+            $i++; 
+        }
+        echo $html .= '<input type="hidden" name="exam_no" value="'.$exam_no.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="submit" name="quiz" value="Submit"></form>';
+    } 
+    return false;
+}
+
+//user submit test by using previous/next question button
+function enableSingleQuestion() {
+    global $conn, $exam_no, $user_id;;
+    $sql = "SELECT * FROM questions WHERE exam_no='".$exam_no."'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {    
+        $count = $result->num_rows;
+        $i = 1;
+        $html = '<form action="score.php" method="post" class="exam" id="examForm" >';
+        while ($row = $result->fetch_assoc()) { 
+            $html .= '<div class="tab"><h4>Question '.$i.' of '.$count.':</h4><p>'.$row['question'].'</p>';
+            if(isset($row['option1'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="0">'.$row['option1'].'</label></div>';                    
+            }
+            if(isset($row['option2'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="1">'.$row['option2'].'</label></div>';
+            }
+            if(isset($row['option3'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="2">'.$row['option3'].'</label></div>';
+            }
+            if(isset($row['option4'])) {
+            $html .= '<div class="radio"><label><input type="radio" name="'.$row['ques_id'].'" value="3">'.$row['option4'].'</label></div>';
+            }
+            $html .= '<div class="radio" style="display:none" ><label><input type="radio" checked="checked" name="'.$row['ques_id'].'" value="no_attempt"></label></div>';
+            $html .= '</div>';
+            $i++; 
+        }
+
+        echo $html .= '<input type="hidden" name="exam_no" value="'.$exam_no.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><div><button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button><button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button></div></form>';
+    } 
+    return false;
 }
 
 ?>

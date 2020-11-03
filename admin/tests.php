@@ -3,7 +3,9 @@ $title = 'Tests';
 include('header.php'); 
 ?>  
 	<?php include('sidebar.php'); ?>
-		
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
@@ -27,10 +29,22 @@ include('header.php');
                 				<div class="row">
                     				<div class="col-sm-12">
                     					Enable/Disable previous and next button
-                    					<label class="switch">
-  											<input type="checkbox" class="toggle">
-  											<span class="slider round"></span>
-										</label>
+                        				<form action="status.php" method="post" id="enable_disable">
+                                        	<label class="switch">
+      											<input type="checkbox" class="toggle" <?php 
+                                                $sql2 = "SELECT status FROM setting WHERE setting_id=1";
+                                                $result = $conn->query($sql2);
+                                                $row = $result->fetch_assoc();
+                                                if ($row['status'] == 'enable') {
+                                                    $checked = "checked"; echo $checked;
+                                                } else {
+                                                    $checked = ""; echo $checked;
+                                                }
+                                                ?> name="status" id="status" value="<?php echo $row['status']; ?>">
+      											<span class="slider round"></span>
+    										</label>
+                                            <input type="hidden" name="hidden_status" id="hidden_status" value="enable" />
+                                        </form>
                         				<a href="addTest.php" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Test</a>
                     				</div>
                 				</div>
@@ -97,5 +111,49 @@ include('header.php');
 				</div> <!-- End .content-box-content -->
 			</div> <!-- End .content-box -->
 	</div>	<!--/.main-->
+
+    <script>
+    $(document).ready(function(){
+        /* ('#status').bootstrapToggle({
+            on: 'enable',
+            off: 'disable'
+        }); */
+
+        $('#status').change(function(){
+            if($(this).prop('checked')) {
+                $('#hidden_status').val('enable');
+                document.getElementById('enable_disable').submit();
+            }
+            else if($(this).prop('')) {
+                $('hidden_status').val('disable');
+                document.getElementById('enable_disable').submit();
+            }
+        });
+        
+        /*$('#enable_disable').on('submit', function(event){
+            //event.preventDefault();
+            var status = $('#status').val();
+            $.ajax({
+                url: "status.php",
+                method: "POST",
+                type: "POST",
+                data: $(this).serialize(),
+                success:function(data){
+                    if(data == 'done') {
+                        //$('#status').bootstrapToggle('on');
+                        alert("Data Inserted");
+                    } else {
+                        alert(data);
+                    }
+
+                }
+            });
+            $.fail(function( msg ) {
+                        alert("Data Inserted");
+                    });
+        });  */
+    });
+    </script>
+
 	
 	<?php include('footer.php'); ?>

@@ -25,28 +25,32 @@ include('header.php');
                                 <thead>
                                     <tr>
                                         <th>Test Number</th>
+                                        <th>Test Name</th>
                                         <th>Total Questions</th>
+                                        <th>Date Of Creation</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-                                $sql = "SELECT DISTINCT exam_no FROM questions";
+                                $sql = "SELECT * FROM exam";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     // output data of each row
                                     while ($row = $result->fetch_assoc()) {
                                 ?>
                                 <tr>
-                                	<td><?php echo $row['exam_no'];?></td>
+                                	<td><?php echo $row['exam_id'];?></td>
+                                    <td><?php echo $row['exam_title'];?></td>
                                     <td><?php 
-                                    $sql1 = "SELECT * FROM questions WHERE exam_no='".$row['exam_no']."'";
+                                    $sql1 = "SELECT * FROM questions WHERE exam_no='".$row['exam_id']."'";
                                     $result1 = $conn->query($sql1);
                                     $count = $result1->num_rows;
                                     echo $count;
                                     ?></td>
+                                    <td><?php echo $row['date'];?></td>
                                     <td>
-				                        <a href="viewTest.php?test_id=<?php echo $row["exam_no"]; ?>" >View Test</a>
+				                        <a href="viewTest.php?test_id=<?php echo $row["exam_id"]; ?>" >View Test</a>
 				                    </td>
                                 </tr>
                                 <?php

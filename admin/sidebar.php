@@ -3,7 +3,7 @@ $url = $_SERVER['REQUEST_URI'];
 $path = parse_url($url, PHP_URL_PATH);
 $filename = basename($path);
 $test_menu = array('tests.php', 'addTest.php', 'viewTest.php', 'addQuestion.php');
-$user_menu = array('test_result.php', 'users.php');
+$user_menu = array('testResult.php', 'users.php');
 ?>
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 	<div class="profile-sidebar">
@@ -50,6 +50,11 @@ $user_menu = array('test_result.php', 'users.php');
 				<em class="fa fa-users">&nbsp;</em> Users<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 			</a>
 			<ul class="children collapse" id="sub-item-2">
+				<li <?php if($filename == 'users.php'): ?>class="current"<?php endif; ?> >
+					<a href="users.php">
+						<span class="fa fa-arrow-right">&nbsp;</span> Show Users
+					</a>
+				</li>
 				<li <?php if($filename == 'users.php'): ?>class="current"<?php endif; ?> >
 					<a href="users.php">
 						<span class="fa fa-arrow-right">&nbsp;</span> Show Users

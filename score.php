@@ -7,7 +7,7 @@ include_once('functions.php');
 if (!isset($_SESSION['userdata']['user_email'])) {
     header('location: index.php');
 }
-//calls function for checking answers
+//calls function for checking answers & return array 
 $answer = answer($_POST);
 ?>
         <div class="container content score">
@@ -17,7 +17,13 @@ $answer = answer($_POST);
                 	$total_question = $answer['right']+$answer['wrong']+$answer['no_answer'];
                 	$attempt_question = $answer['right']+$answer['wrong'];
                 	?>
-                	<h1>Test <?php echo $answer['exam_no']; ?> Result</h1><br/>
+                	<h1>
+                		<?php
+                        $sql = "SELECT * FROM exam WHERE exam_id='".$answer['exam_no']."'";
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc(); 
+                        echo $row['exam_title'];?> (Test <?php echo $answer['exam_no']; ?>) Result
+                	</h1><br/>
                 	<table class="table table-bordered">
 					    <thead>
 					    	<tr>
