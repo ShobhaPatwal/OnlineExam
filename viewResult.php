@@ -1,5 +1,5 @@
 <?php 
-$title = "Result";
+$title = "Score";
 include('header.php');
 include_once('config.php');
 include_once('functions.php');
@@ -7,53 +7,38 @@ include_once('functions.php');
 if (!isset($_SESSION['userdata']['user_email'])) {
     header('location: index.php');
 }
-$user_id = $_SESSION['userdata']['user_id'];
-$exam_no = $_GET['exam_no'];
+//calls function for checking answers & return array 
+$answer = answer($_POST);
 ?>
         <div class="container content score">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
+                	<?php
+                	$total_question = $answer['right']+$answer['wrong']+$answer['no_answer'];
+                	$attempt_question = $answer['right']+$answer['wrong'];
+                	?>
                 	<h1>
                 		<?php
-                        $sql = "SELECT * FROM exam WHERE exam_id='".$exam_no."'";
+                        $sql = "SELECT * FROM exam WHERE exam_id='".$answer['exam_no']."'";
                         $result = $conn->query($sql);
                         $row = $result->fetch_assoc(); 
-                        echo $row['exam_title'];?> (Test <?php echo $exam_no; ?>) Result
+                        echo $row['exam_title'];?> (Test <?php echo $answer['exam_no']; ?>) Result
                 	</h1><br/>
                 	<table class="table table-bordered">
 					    <thead>
 					    	<tr>
 					    		<th>Total Number Of Questions</th>
-					            <th>
-					            	<?php 
-                                    $sql1 = "SELECT * FROM questions WHERE exam_no='".$exam_no."'";
-                                    $result1 = $conn->query($sql1);
-                                    $count = $result1->num_rows;
-                                    echo $count;
-                                    ?></th>
+					            <th><?php echo $total_question; ?></th>
 					      </tr>
 					    </thead>
 					    <tbody>
-							<?php 
-							$sql2 = "SELECT * FROM user_exam_result WHERE exam_id='".$exam_no."' && user_id='".$user_id."'";
-							$result2 = $conn->query($sql2);
-							if ($result2->num_rows > 0) {
-                                // output data of each row
-                                while ($row1 = $result2->fetch_assoc()) {
-									$mark = $row1['marks'];
-									$marks = explode (",", $mark);  
-									print_r($marks); 
-								}
-							}
-
-					    	?>
 					      	<tr>
 					        	<td>Attempted Questions</td>
 					        	<td><?php echo $attempt_question; ?></td>
 					      	</tr>
 					      	<tr>
 					        	<td>Right Answer</td>
-					        	<td><?php echo $row['marks']; ?></td>
+					        	<td><?php echo $answer['right']; ?></td>
 					      	</tr>
 					      	<tr>
 					        	<td>Wrong Answer</td>

@@ -46,7 +46,6 @@ $user_id = $_SESSION['userdata']['user_id'];
                                 while ($row = $result->fetch_assoc()) {
                             ?>
                             <tr>
-
                                 <td><?php echo $row['exam_no'];?></td>
                                 <td>
                                     <?php 
@@ -78,7 +77,13 @@ $user_id = $_SESSION['userdata']['user_id'];
                                     ?>     
                                 </td>
                                 <td>
-                                    <a href="exam.php?exam_no=<?php echo $row["exam_no"]; ?>" title="Start Test">Start Test</a> 
+                                    <?php 
+                                    if($count1 == 1) {
+                                        echo '<a href="examResult.php?exam_no='.$row["exam_no"].'&user_id='.$user_id.'" title="View Result">View Result</a>';
+                                    } else {
+                                        echo '<a href="exam.php?exam_no='.$row["exam_no"].'" title="Start Test">Start Test</a>';
+                                    }
+                                    ?>   
                                 </td>
                             </tr>
                             <?php
