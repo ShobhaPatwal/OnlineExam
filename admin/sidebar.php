@@ -55,11 +55,6 @@ $user_menu = array('testResult.php', 'users.php');
 						<span class="fa fa-arrow-right">&nbsp;</span> Show Users
 					</a>
 				</li>
-				<li <?php if($filename == 'users.php'): ?>class="current"<?php endif; ?> >
-					<a href="users.php">
-						<span class="fa fa-arrow-right">&nbsp;</span> Show Users
-					</a>
-				</li>
 			</ul>
 		</li>		</li>
 

@@ -29,7 +29,7 @@ include('header.php');
                 				<div class="row">
                     				<div class="col-sm-12">
                     					Enable/Disable previous and next button
-                        				<form action="status.php" method="post" id="enable_disable">
+                        				<form action="status.php" method="get" id="enable_disable">
                                         	<label class="switch">
       											<input type="checkbox" class="toggle" <?php 
                                                 $sql2 = "SELECT status FROM setting WHERE setting_id=1";
@@ -43,7 +43,7 @@ include('header.php');
                                                 ?> name="status" id="status" value="<?php echo $row['status']; ?>">
       											<span class="slider round"></span>
     										</label>
-                                            <input type="hidden" name="hidden_status" id="hidden_status" value="enable" />
+                                            <input type="hidden" name="hidden_status" id="hidden_status" value=""/>
                                         </form>
                         				<a href="addTest.php" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Test</a>
                     				</div>
@@ -114,44 +114,16 @@ include('header.php');
 
     <script>
     $(document).ready(function(){
-        /* ('#status').bootstrapToggle({
-            on: 'enable',
-            off: 'disable'
-        }); */
-
         $('#status').change(function(){
             if($(this).prop('checked')) {
                 $('#hidden_status').val('enable');
                 document.getElementById('enable_disable').submit();
             }
-            else if($(this).prop('')) {
-                $('hidden_status').val('disable');
+            else  {
+                $('#hidden_status').val('disable');
                 document.getElementById('enable_disable').submit();
             }
         });
-        
-        /*$('#enable_disable').on('submit', function(event){
-            //event.preventDefault();
-            var status = $('#status').val();
-            $.ajax({
-                url: "status.php",
-                method: "POST",
-                type: "POST",
-                data: $(this).serialize(),
-                success:function(data){
-                    if(data == 'done') {
-                        //$('#status').bootstrapToggle('on');
-                        alert("Data Inserted");
-                    } else {
-                        alert(data);
-                    }
-
-                }
-            });
-            $.fail(function( msg ) {
-                        alert("Data Inserted");
-                    });
-        });  */
     });
     </script>
 
